@@ -6,7 +6,9 @@
   "scripts": {
     "test": "test",
     "prod": "NODE_ENV=production node ./dist/index.js",
-    "dev": "ts-node-dev index.ts"
+    "build": "tsc --build",
+    "dev": "NODE_ENV=development ts-node-dev --respawn --transpile-only --rs ./index.ts",
+    "dev:debug": "NODE_ENV=development ts-node-dev --debug --respawn --transpile-only --rs ./index.ts"
   },
   "repository": {
     "type": "git",
