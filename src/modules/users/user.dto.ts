@@ -1,7 +1,7 @@
 import { ObjectId } from 'mongodb';
 
 export class UserDto {
-  _id!: ObjectId;
+  _id!: ObjectId | string;
 
   name!: string;
 
@@ -12,4 +12,5 @@ export class UserDto {
   updatedAt!: Date;
 }
 
-export type CreateuserDto = Omit<UserDto, '_id' | 'createdAt' | 'updatedAt'>;
+export type CreateUserDto = Omit<UserDto, '_id' | 'createdAt' | 'updatedAt'>;
+export type UpdateUserDto = Partial<CreateUserDto>;
