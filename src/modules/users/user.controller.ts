@@ -11,8 +11,8 @@ export class UserController {
   authenticate = async (req: Request, res: Response) => {
     const { body } = req;
     const response = await this.userService.authenticateUser(body);
-    const { status, ...responseBody } = response;
-    return res.status(status).json(responseBody);
+    const { status, token, ...message } = response;
+    return res.status(status).json(token ? { token } : message);
   };
 
   create = async (req: Request, res: Response) => {

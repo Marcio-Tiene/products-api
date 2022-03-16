@@ -22,7 +22,6 @@ const UserSchema = new mongoose.Schema<UserDocument>(
 
 // eslint-disable-next-line func-names
 UserSchema.methods.validatePassword = function (password: string) {
-  console.log(this.password);
   const result = bcrypt.compareSync(password, this.password);
   return result;
 };
