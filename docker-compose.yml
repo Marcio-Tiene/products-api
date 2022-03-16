@@ -1,0 +1,16 @@
+version: '3.8'
+services:  
+  mongo:
+    container_name: ${MONGODB_DB}-mongodb
+    image: mongo
+    volumes:
+    - ${MONGO_DATA_DIR}:/data/db
+    logging:
+      driver: none
+    ports:
+    - "27017:27017"
+
+networks:
+  default:
+    external:
+      name: ${NETWORK_NAME}
