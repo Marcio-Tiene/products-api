@@ -10,7 +10,11 @@ export class UserDto {
   createdAt!: Date;
 
   updatedAt!: Date;
+
+  password!: string;
 }
 
 export type CreateUserDto = Omit<UserDto, '_id' | 'createdAt' | 'updatedAt'>;
 export type UpdateUserDto = Partial<CreateUserDto>;
+
+export type LoginUserDto = Omit<CreateUserDto, 'name'>;
