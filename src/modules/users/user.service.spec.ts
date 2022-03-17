@@ -1,3 +1,4 @@
+/* eslint-disable no-throw-literal */
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import mongoose from 'mongoose';
 
@@ -72,5 +73,23 @@ describe('User service', () => {
     authResponse = await userService.authenticateUser(body);
 
     expect(authResponse).toMatchObject({ status: 403, message: 'email and/or password is missing' });
+  });
+  it('Should handle unexpected error', async () => {
+    const body = { email: 'test@email.com', password: '123' };
+    const createBody = { name: 'TEste', email: 'test@email.com', password: '123' };
+    await userService.createUser(createBody);
+    jwt.sign = jest.fn(() => {
+      throw { statusCode: 500, message: 'unexpected error handled' };
+    });
+    let createdResponse = await userService.authenticateUser(body);
+
+    expect(createdResponse).toMatchObject({ status: 500, message: 'unexpected error handled' });
+    jwt.sign = jest.fn(() => {
+      throw { status: 500, msg: 'unexpected error handled' };
+    });
+
+    createdResponse = await userService.authenticateUser(body);
+
+    expect(createdResponse).toMatchObject({ status: 500, message: 'unexpected error handled' });
   });
 });
