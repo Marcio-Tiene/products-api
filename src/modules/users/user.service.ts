@@ -14,6 +14,17 @@ export class UserService {
 
   createUser = async (payload: CreateUserDto): Promise<IServiceResponse> => {
     try {
+      const nullFields = Object.keys(payload).reduce((messages: string[], value: string) => {
+        const { [value as keyof CreateUserDto]: newvalue } = payload;
+        if (newvalue === '') {
+          messages.push(value);
+        }
+        return messages;
+      }, []);
+
+      if (nullFields.length) {
+        return { status: 400, message: `The ${nullFields.join(', ')} field(s) can't be nullish` };
+      }
       const user = new this.Entity(payload);
 
       await user.save();
